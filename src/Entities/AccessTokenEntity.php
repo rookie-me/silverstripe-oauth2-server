@@ -25,4 +25,5 @@ class AccessTokenEntity implements AccessTokenEntityInterface
             $this->addScope($scope);
         }
     }
+
 }

@@ -2,7 +2,6 @@
 
 namespace AdvancedLearning\Oauth2Server\Repositories;
 
-
 use AdvancedLearning\Oauth2Server\Entities\UserEntity;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Repositories\UserRepositoryInterface;

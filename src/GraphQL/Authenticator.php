@@ -24,7 +24,7 @@ class Authenticator implements AuthenticatorInterface
 
 
             if ($userId = $request->getHeader('oauth_user_id')) {
-                return Member::get()->filter(['Email' => $userId])->first();
+                return Member::get()->byID($userId);
 
                 // return a fake member for the client
             } else if ($clientId = $request->getHeader('oauth_client_id')) {

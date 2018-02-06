@@ -12,11 +12,11 @@ class ScopeEntity implements ScopeEntityInterface
     /**
      * ScopeEntity constructor.
      *
-     * @param string $name The name of the scope.
+     * @param string $identifier The identifier of the scope.
      */
-    public function __construct(string $name)
+    public function __construct(string $identifier)
     {
-        $this->setIdentifier($name);
+        $this->setIdentifier($identifier);
     }
 
     /**

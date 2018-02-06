@@ -6,6 +6,7 @@ namespace AdvancedLearning\Oauth2Server\Services;
 use AdvancedLearning\Oauth2Server\Exceptions\AuthenticationException;
 use AdvancedLearning\Oauth2Server\Repositories\AccessTokenRepository;
 use GuzzleHttp\Psr7\Response;
+use League\OAuth2\Server\AuthorizationValidators\BearerTokenValidator;
 use League\OAuth2\Server\Exception\OAuthServerException;
 use League\OAuth2\Server\ResourceServer;
 use Robbie\Psr7\HttpRequestAdapter;

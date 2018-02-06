@@ -2,9 +2,9 @@
 
 namespace AdvancedLearning\Oauth2Server\Repositories;
 
-
 use AdvancedLearning\Oauth2Server\Entities\RefreshTokenEntity;
 use AdvancedLearning\Oauth2Server\Models\AccessToken;
+use AdvancedLearning\Oauth2Server\Models\RefreshToken;
 use League\OAuth2\Server\Entities\RefreshTokenEntityInterface;
 use League\OAuth2\Server\Repositories\RefreshTokenRepositoryInterface;
 
@@ -15,20 +15,22 @@ class RefreshTokenRepository implements RefreshTokenRepositoryInterface
      */
     public function persistNewRefreshToken(RefreshTokenEntityInterface $refreshTokenEntity)
     {
-        $newToken = AccessToken::create();
+        $newToken = RefreshToken::create();
 
         $newToken->Identifier = $refreshTokenEntity->getIdentifier();
-        $newToken->Name = $refreshTokenEntity->getAccessToken()->getClient()->getName();
-        $newToken->ExpiryDateTime = $refreshTokenEntity->getExpiryDateTime()->format('Y-m-d H:i');
+        $newToken->Expiry  = $refreshTokenEntity->getExpiryDateTime()->format('Y-m-d H:i');
 
-        // turn scopes into space separated string
-        $newToken->Scopes = '';
-        $separator = '';
-        foreach ($refreshTokenEntity->getAccessToken()->getScopes() as $scope) {
-            $newToken->Scopes .= $separator . $scope->getIdentifier();
-            $separator = ' ';
+        // this is ambiguous - could find an AccessToken or an AuthToken... not sure if that's a good thing
+        $accessToken = AccessToken::get()->find("Identifier", $refreshTokenEntity->getAccessToken()->getIdentifier());
+        if(!$accessToken){
+            throw new Exception("Couldn't find access token by Identifier for refresh");
         }
 
+        $newToken->MemberID = $accessToken->MemberID;
+        $newToken->ClientID = $accessToken->ClientID;
+        $newToken->write(); // need to write before creating manymany relationships
+
+        $newToken->Scopes()->setByIDList($accessToken->Scopes()->column("ID"));
         $newToken->write();
 
         return $newToken;
@@ -69,10 +71,10 @@ class RefreshTokenRepository implements RefreshTokenRepositoryInterface
      *
      * @param string $tokenId The id of the token.
      *
-     * @return AccessToken|null
+     * @return RefreshToken|null
      */
-    public function findToken(string $tokenId): ?AccessToken
+    public function findToken(string $tokenId): ?RefreshToken
     {
-        return AccessToken::get()->filter(['Identifier' => $tokenId])->first();
+        return RefreshToken::get()->filter(['Identifier' => $tokenId])->first();
     }
 }
