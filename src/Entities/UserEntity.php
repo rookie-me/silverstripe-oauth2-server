@@ -10,12 +10,16 @@ class UserEntity implements UserEntityInterface
 {
     use EntityTrait;
 
-    protected $member;
+    public $member;
 
-    public function __construct(Member $member)
-    {
-        $this->member = $member;
-        $this->setIdentifier($member->ID);
+    /**
+     * @param Member $member
+     * @return ScopeEntity
+     */
+    public function __construct(?Member $member){
+        if($member instanceof Member) {
+           $this->setMember($member);
+        }
     }
 
     /**
@@ -26,5 +30,10 @@ class UserEntity implements UserEntityInterface
     public function getMember()
     {
         return $this->member;
+    }
+
+    public function setMember(Member $member){
+        $this->member = $member;
+        $this->setIdentifier($member->ID);
     }
 }

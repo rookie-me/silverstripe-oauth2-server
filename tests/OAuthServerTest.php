@@ -4,6 +4,7 @@ namespace AdvancedLearning\Oauth2Server\Tests;
 
 use AdvancedLearning\Oauth2Server\AuthorizationServer\DefaultGenerator;
 use AdvancedLearning\Oauth2Server\Controllers\AuthoriseController;
+use AdvancedLearning\Oauth2Server\Controllers\OauthServerController;
 use AdvancedLearning\Oauth2Server\Entities\UserEntity;
 use AdvancedLearning\Oauth2Server\Middleware\AuthenticationMiddleware;
 use AdvancedLearning\Oauth2Server\Models\Client;
@@ -143,9 +144,9 @@ class OAuthServerTest extends SapphireTest
         $this->assertNull($result, 'Resource Server shouldn\'t modify the response');
     }
 
-    public function testAuthoriseController()
+    public function testOauthServerController()
     {
-        $controller = new AuthoriseController(new DefaultGenerator());
+        $controller = new OauthServerController(new DefaultGenerator());
 
         $client = $this->objFromFixture(Client::class, 'webapp');
         $request = $this->getClientRequest($client);

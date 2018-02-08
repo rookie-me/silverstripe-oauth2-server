@@ -80,7 +80,7 @@ class AuthCodeRepository implements AuthCodeRepositoryInterface
 
     /**
      * @param string $codeId
-     * @return AuthCodeEntity
+     * @return AuthCode
      */
     public function findAuthCode($codeId)
     {

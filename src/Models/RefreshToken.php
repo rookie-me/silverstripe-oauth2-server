@@ -25,7 +25,7 @@ class RefreshToken extends AccessToken
      * @return RefreshTokenEntity
      */
     public function getEntity(){
-        $entity = (new RefreshTokenEntity)->create($this->Identifier, $this->ScopeEntities());
+        $entity = new RefreshTokenEntity($this->Identifier, $this->ScopeEntities());
         $entity->setClient($this->Client()->getEntity());
         return $entity;
     }

@@ -12,13 +12,12 @@ class ClientEntity implements ClientEntityInterface
     use ClientTrait, EntityTrait;
 
     /**
-     * Create a new client instance.
-     *
-     * @param string $identifier  The identifier for the client.
-     * @param string $name        The name of the client.
-     * @param string $redirectUri Redirect Uri.
+     * ClientEntity constructor.
+     * @param null|string $identifier   The identifier for the client.
+     * @param null|string $name         The name of the client.
+     * @param null|string $redirectUri  Redirect Uri.
      */
-    public function __construct(string $identifier, string $name, string $redirectUri)
+    public function __construct(?string $identifier, ?string $name, ?string $redirectUri)
     {
         $this->setIdentifier($identifier);
         $this->name = $name;

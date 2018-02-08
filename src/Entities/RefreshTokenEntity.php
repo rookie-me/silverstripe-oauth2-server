@@ -12,14 +12,18 @@ class RefreshTokenEntity implements RefreshTokenEntityInterface
 
     /**
      * RefreshTokenEntity constructor.
-     * @param string $identifier                        The identifier of the refreshtoken.
-     * @param DateTime $expiryDateTime                  Set the date time when the token expires.
-     * @param AccessTokenEntityInterface $accessToken   Set the access token that the refresh token was associated with.
+     * @param null|string $identifier                            The identifier of the refreshtoken.
+     * @param DateTime|null $expiryDateTime                      Set the date time when the token expires.
+     * @param AccessTokenEntityInterface|null $accessToken  Set the access token that the refresh token was associated with.
      */
-    public function create(string $identifier, DateTime $expiryDateTime, AccessTokenEntityInterface $accessToken)
+    public function __construct(?string $identifier = '', ?DateTime $expiryDateTime = null, ?AccessTokenEntityInterface $accessToken = null)
     {
         $this->setIdentifier($identifier);
-        $this->setExpiryDateTime($expiryDateTime);
-        $this->setAccessToken($accessToken);
+        if($expiryDateTime) {
+            $this->setExpiryDateTime($expiryDateTime);
+        }
+        if($accessToken) {
+            $this->setAccessToken($accessToken);
+        }
     }
 }

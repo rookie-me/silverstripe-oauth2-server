@@ -13,11 +13,10 @@ class AccessTokenEntity implements AccessTokenEntityInterface
 
     /**
      * AccessTokenEntity constructor.
-     *
-     * @param null|string $userIdentifier The identifier of the user.
-     * @param array       $scopes         The scopes to assign the user.
+     * @param null|string $userIdentifier   The identifier of the user.
+     * @param array|null $scopes            The scopes to assign the user.
      */
-    public function __construct(?string $userIdentifier, array $scopes)
+    public function __construct(?string $userIdentifier, ?array $scopes)
     {
         $this->setUserIdentifier($userIdentifier);
 

@@ -10,11 +10,10 @@ class ScopeEntity implements ScopeEntityInterface
     use EntityTrait;
 
     /**
-     * ScopeEntity constructor.
-     *
-     * @param string $identifier The identifier of the scope.
+     * @param string $identifier
+     * @return ScopeEntity
      */
-    public function __construct(string $identifier)
+    public function __construct(string $identifier = "")
     {
         $this->setIdentifier($identifier);
     }

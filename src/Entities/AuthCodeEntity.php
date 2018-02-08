@@ -3,6 +3,7 @@
 namespace AdvancedLearning\Oauth2Server\Entities;
 
 use AdvancedLearning\Oauth2Server\Models\Client;
+use function is_array;
 use League\OAuth2\Server\Entities\AuthCodeEntityInterface;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Entities\ScopeEntityInterface;
@@ -36,17 +37,18 @@ class AuthCodeEntity implements AuthCodeEntityInterface
      * @param array  $scopes      The scopes to assign the user.
      * @param string $redirectUri Redirect Uri.
      */
-    public static function create(string $identifier, array $scopes, string $redirectUri = null){
+    public function __construct(string $identifier = '', array $scopes = [], ?string $redirectUri = null){
 
-        $entity = new AuthCodeEntity();
-        $entity->setIdentifier($identifier);
+        $this->setIdentifier($identifier);
 
-        foreach ($scopes as $scope) {
-            $entity->addScope($scope);
+        if(is_array($scopes) && !empty($scopes)){
+            foreach ($scopes as $scope) {
+                $this->addScope($scope);
+            }
         }
 
         if($redirectUri) {
-            $entity->setRedirectUri(explode(',', $redirectUri));
+            $this->setRedirectUri(explode(',', $redirectUri));
         }
     }
 
