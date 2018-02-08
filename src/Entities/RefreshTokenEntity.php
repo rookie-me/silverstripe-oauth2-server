@@ -16,7 +16,7 @@ class RefreshTokenEntity implements RefreshTokenEntityInterface
      * @param DateTime $expiryDateTime                  Set the date time when the token expires.
      * @param AccessTokenEntityInterface $accessToken   Set the access token that the refresh token was associated with.
      */
-    public function __construct(string $identifier, DateTime $expiryDateTime, AccessTokenEntityInterface $accessToken)
+    public function create(string $identifier, DateTime $expiryDateTime, AccessTokenEntityInterface $accessToken)
     {
         $this->setIdentifier($identifier);
         $this->setExpiryDateTime($expiryDateTime);

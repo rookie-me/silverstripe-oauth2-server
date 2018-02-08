@@ -15,7 +15,7 @@ class ScopeRepository implements ScopeRepositoryInterface
      */
     public function getScopeEntityByIdentifier($identifier)
     {
-        if ($scope = Scope::get()->filter(['Identifier' => $identifier])->first()) {
+        if ($scope = Scope::get()->filter(['Identifier:nocase' => $identifier])->first()) {
             return $scope->getEntity();
         }
     }
@@ -29,7 +29,7 @@ class ScopeRepository implements ScopeRepositoryInterface
         ClientEntityInterface $clientEntity,
         $userIdentifier = null
     ) {
-        $client = $clientEntity instanceof ClientEntity ? $client->getClientObject() : false;
+        $client = $clientEntity instanceof ClientEntity ? $clientEntity->getClientObject() : false;
         if($client){
             $client->extend("updateScopes", $scopes, $grantType, $userIdentifier);
         }

@@ -19,7 +19,7 @@ class AuthCode extends AccessToken
      * @return AuthCodeEntity
      */
     public function getEntity(){
-        $entity = new AuthCodeEntity($this->Identifier, $this->ScopeEntities());
+        $entity = (new AuthCodeEntity())->create($this->Identifier, $this->ScopeEntities());
         $entity->setClient($this->Client()->getEntity());
         return $entity;
     }

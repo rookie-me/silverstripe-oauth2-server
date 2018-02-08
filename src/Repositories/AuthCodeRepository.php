@@ -2,14 +2,14 @@
 
 namespace AdvancedLearning\Oauth2Server\Repositories;
 
-use AdvancedLearning\Oauth2Server\Entities\AccessTokenEntity as AccessTokenEntity;
-use AdvancedLearning\Oauth2Server\Models\AccessToken;
+use AdvancedLearning\Oauth2Server\Entities\AuthCodeEntity;
 use AdvancedLearning\Oauth2Server\Models\AuthCode;
-use League\OAuth2\Server\Entities\AccessTokenEntityInterface;
+use AdvancedLearning\Oauth2Server\Models\Client;
+use AdvancedLearning\Oauth2Server\Models\Scope;
 use League\OAuth2\Server\Entities\AuthCodeEntityInterface;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
-use League\OAuth2\Server\Repositories\AccessTokenRepositoryInterface;
 use League\OAuth2\Server\Repositories\AuthCodeRepositoryInterface;
+use SilverStripe\Security\Member;
 
 class AuthCodeRepository implements AuthCodeRepositoryInterface
 {
@@ -84,7 +84,7 @@ class AuthCodeRepository implements AuthCodeRepositoryInterface
      */
     public function findAuthCode($codeId)
     {
-        return AuthCode::get()->filter(['ClassName'=>AuthCode::class, 'Identifier' => $tokenId])->first();
+        return AuthCode::get()->filter(['ClassName'=>AuthCode::class, 'Identifier' => $codeId])->first();
     }
 
 }

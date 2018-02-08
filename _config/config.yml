@@ -1,6 +1,6 @@
 SilverStripe\Control\Director:
   rules:
-    'oauth2/authorise': 'AdvancedLearning\Oauth2Server\Controllers\AuthoriseController'
+    'oauth2': 'AdvancedLearning\Oauth2Server\Controllers\OauthServerController'
 
 Silverstripe\Core\Injector\Injector:
   AdvancedLearning\Oauth2Server\Services\Authenticator:
@@ -9,6 +9,6 @@ Silverstripe\Core\Injector\Injector:
   AdvancedLearning\Oauth2Server\AuthorizationServer\Generator:
     class: AdvancedLearning\Oauth2Server\AuthorizationServer\DefaultGenerator
 
-  AdvancedLearning\Oauth2Server\Controllers\AuthoriseController:
+  AdvancedLearning\Oauth2Server\Controllers\OauthServerController:
     constructor:
-      0: '%$AdvancedLearning\Oauth2Server\AuthorizationServer\Generator'
+      0: '%$AdvancedLearning\Oauth2Server\AuthorizationServer\DefaultGenerator'
