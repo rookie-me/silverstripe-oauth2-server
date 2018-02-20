@@ -33,6 +33,18 @@ class ScopeRepository implements ScopeRepositoryInterface
         if($client){
             $client->extend("updateScopes", $scopes, $grantType, $userIdentifier);
         }
-        return $scopes;
+
+        // only check if we have a user, should a client have scopes?
+        if (empty($userIdentifier)) return $scopes;
+
+        $userEntity = (new UserRepository())->getUserEntityByIdentifier($userIdentifier);
+
+        $approvedScopes = [];
+        foreach ($scopes as $scope) {
+            if ($userEntity->hasScope($scope->getIdentifier())) {
+                $approvedScopes[] = $scope;
+            }
+        }
+        return $approvedScopes;
     }
 }
