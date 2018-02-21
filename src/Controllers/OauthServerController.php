@@ -19,6 +19,11 @@ use SilverStripe\Dev\Debug;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Security;
 
+/**
+ * Class OauthServerController
+ * @package AdvancedLearning\Oauth2Server\Controllers
+ * @todo add a 'revoke' endpoint
+ */
 class OauthServerController extends Controller
 {
     /**
@@ -117,6 +122,8 @@ class OauthServerController extends Controller
             // At this point you should redirect the user to an authorization page.
             // This form will ask the user to approve the client and the scopes requested.
             // This could be dependant on the client, the grant type or anything like that
+            // This should also compare the required scopes to the previously allowed scopes to determine
+            // if a confirmation is required or not
 
             // Once the user has approved or denied the client update the status
             // (true = approved, false = denied)
@@ -177,9 +184,25 @@ class OauthServerController extends Controller
         return (new HttpResponseAdapter())->fromPsr7($response);
     }
 
-    public function resource(){
-        return json_encode(["ID"=>8, "FirstName"=>"Dummy", "Surname"=>"Data", "Email"=>"dummy@data.com"]);
+    /**
+     * @todo - based on the authorisation provided to this user (scopes), we should return a json_encoded array of data
+     * @return string
+     */
+    public function resource()
+    {
         $member = Member::currentUser();
-        die("GOT TO resource with member = ".$member->ID);
+        if(!$member){
+            $return = [
+                'error'     =>  'Member not found'
+            ];
+        }else{
+            $return = [
+                'ID'        => $member->ID,
+                'FirstName' => $member->FirstName,
+                'Surname'   => $member->Surname,
+                'Email'     => $member->Email
+            ];
+        }
+        return json_encode($return);
     }
 }

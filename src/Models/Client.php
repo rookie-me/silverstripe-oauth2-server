@@ -6,6 +6,8 @@ use AdvancedLearning\Oauth2Server\Entities\ClientEntity;
 use function base64_encode;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use SilverStripe\Assets\Image;
+use SilverStripe\Forms\CheckboxSetField;
+use SilverStripe\ORM\ArrayLib;
 use SilverStripe\ORM\DataObject;
 
 /**
@@ -18,6 +20,7 @@ use SilverStripe\ORM\DataObject;
  * @property string $Secret         Secret hash to confirm identity; should have some level of entropy
  * @property string $Identifier     Internal identifier; unique to each identity
  * @property string $RedirectUri    Default redirect URI for Client (if one is not provided)
+ * @method Image Logo()
  */
 class Client extends DataObject
 {
@@ -44,6 +47,33 @@ class Client extends DataObject
     ];
 
     /**
+     * @config
+     * @var array
+     */
+    private static $available_grants = [
+        "authorization_code",
+        "client_credentials",
+        "password",
+        "refresh_token"
+    ];
+
+    private static $casting = [
+        'Grants'        =>  'MultiEnum'
+    ];
+    
+    /**
+     * Remove ambiguity on Grants field by creating a checkbox
+     * @return \SilverStripe\Forms\FieldList
+     */
+    public function getCMSFields()
+    {
+        $fields = parent::getCMSFields();
+        // password,client_credentials,authorization,implicit,code,authorization_code
+        $fields->replaceField('Grants', CheckboxSetField::create('Grants', 'Grants', ArrayLib::valuekey($this->config()->get('available_grants'))));
+        return $fields;
+    }
+
+    /**
      * Checks whether this ClientEntity has the given grant type.
      *
      * @param string $grantType The grant type to check.
@@ -52,8 +82,7 @@ class Client extends DataObject
      */
     public function hasGrantType($grantType)
     {
-        $grants = explode(',', $this->Grants);
-        $grants = array_map("trim", $grants);
+        $grants = json_decode($this->obj("Grants")->getValue());
 
         return !empty($grants) && in_array($grantType, $grants);
     }
