@@ -54,13 +54,11 @@ class OauthServerController extends Controller
     private static $allowed_actions = [
         'authorize',
         'access_token',
-        'resource'
     ];
 
     private static $url_handlers = [
         'authorize' 		=> 'authorize',
         'access_token'		=> 'access_token',
-        'resource'		    => 'resource',
     ];
 
     private static $url_segment = "oauth2";
@@ -168,7 +166,6 @@ class OauthServerController extends Controller
      */
     protected function getErrorResponse($message, $responseCode = 500)
     {
-        Debug::endshow($message);
         $response = (new OAuthServerException($message, 100, 'server_error', $responseCode))
             ->generateHttpResponse(new Response());
 
@@ -184,25 +181,4 @@ class OauthServerController extends Controller
         return (new HttpResponseAdapter())->fromPsr7($response);
     }
 
-    /**
-     * @todo - based on the authorisation provided to this user (scopes), we should return a json_encoded array of data
-     * @return string
-     */
-    public function resource()
-    {
-        $member = Member::currentUser();
-        if(!$member){
-            $return = [
-                'error'     =>  'Member not found'
-            ];
-        }else{
-            $return = [
-                'ID'        => $member->ID,
-                'FirstName' => $member->FirstName,
-                'Surname'   => $member->Surname,
-                'Email'     => $member->Email
-            ];
-        }
-        return json_encode($return);
-    }
 }
